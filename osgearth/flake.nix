@@ -9,36 +9,40 @@
       flake-utils.lib.eachDefaultSystem (system:
         let
           pkgs = import nixpkgs { inherit system; };
+          osgearth = pkgs.stdenv.mkDerivation {
+            pname = "osgearth";
+            version = "3.8.1";
+
+            src = pkgs.fetchFromGitHub {
+              owner = "pelicanmapping";
+              repo = "osgearth";
+              rev = "osgearth-3.8.1";
+              sha256 = "b543hdLllWvqUevsPL3c/2BSP53zS9ZXYm/BWLap+nU=";
+            };
+
+            cmakeFlags = [
+              "-DCMAKE_BUILD_TYPE=Release"
+            ];
+
+            nativeBuildInputs = with pkgs; [
+              cmake
+            ];
+
+            buildInputs = with pkgs; [
+              curl
+              gdal
+              geos
+              mesa
+              openscenegraph
+              libzip
+              sqlite
+            ];
+          };
         in
           {
-            packages.default = pkgs.stdenv.mkDerivation {
-              pname = "osgearth";
-              version = "3.8.1";
-
-              src = pkgs.fetchFromGitHub {
-                owner = "pelicanmapping";
-                repo = "osgearth";
-                rev = "osgearth-3.8.1";
-                sha256 = "b543hdLllWvqUevsPL3c/2BSP53zS9ZXYm/BWLap+nU=";
-              };
-
-              cmakeFlags = [
-                "-DCMAKE_BUILD_TYPE=Release"
-              ];
-
-              nativeBuildInputs = with pkgs; [
-                cmake
-              ];
-
-              buildInputs = with pkgs; [
-                curl
-                gdal
-                geos
-                mesa-gl-headers
-                openscenegraph
-                libzip
-                sqlite
-              ];
+            packages.default = osgearth;
+            devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
+              buildInputs = osgearth.buildInputs;
             };
           }
       );
