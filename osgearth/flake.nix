@@ -32,8 +32,8 @@
               curl
               gdal
               geos
-              mesa
               openscenegraph
+              libGL
               libzip
               sqlite
             ];
@@ -41,8 +41,10 @@
         in
           {
             packages.default = osgearth;
+
             devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
               buildInputs = osgearth.buildInputs;
+              nativeBuildInputs = osgearth.nativeBuildInputs;
             };
           }
       );
