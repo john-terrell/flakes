@@ -43,6 +43,11 @@
             packages.default = osgearth;
 
             devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
+              # this next line ensures the packages.default binares are
+              # in scope.
+              packages = [
+                (self.packages.${system}.default)
+              ];
               buildInputs = osgearth.buildInputs;
               nativeBuildInputs = osgearth.nativeBuildInputs;
             };
