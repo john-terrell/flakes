@@ -34,6 +34,7 @@
                 curl
                 gdal
                 geos
+                mesa-gl-headers
                 openscenegraph
                 libzip
                 sqlite
