@@ -26,6 +26,7 @@
 
             nativeBuildInputs = with pkgs; [
               cmake
+              webpack-cli
             ];
 
             buildInputs = with pkgs; [
@@ -34,6 +35,7 @@
               geos
               openscenegraph
               libGL
+              libwebp
               libzip
               sqlite
             ];
